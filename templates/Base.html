@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% include 'head.html' %} <!--include로 별도 html(자주 안바뀌는) 가져오기-->
 <body>
-    <h1>Hello World!</h1>
-    <h2>test</h2>
+    {% include 'header.html' %}
+    {% block content %} <!--header와 footer 중간에 block 지정-->
+    {% endblock %}
+    {% include 'footer.html' %}
 </body>
 </html>
