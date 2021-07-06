@@ -134,6 +134,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#특정앱에 연결되지않은 정적 경로
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
