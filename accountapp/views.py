@@ -1,7 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
+from django.urls import reverse
+
 from accountapp.models import HelloWorld
 
 
@@ -13,10 +15,9 @@ def hello_world(request):
         new_hello_world.text = temp
         new_hello_world.save() #DB안에 저장하고 아래서 불러오는건 저장된걸 불러옴
 
-        #이제 단일객체 읽는게 아닌 모든 객체 불러읽기 get는 단일 all은 전체
-        hello_list = HelloWorld.objects.all() #db에 저장된 내용들을 all가져옴
-        return render(request, 'accountapp/hello_world.html',
-                      context={'hello_list': hello_list})
+        #원래대로 했으면 새로고침할때마다 DB에 넘겨준 데이터가 추가되었었음.
+        #리다이렉트 -> accountapp의 hello_world name을 가진걸 찾아 reverse로 주소추적
+        return HttpResponseRedirect(reverse('accountapp:hello_world'))
 
     elif request.method == 'GET':
         hello_list = HelloWorld.objects.all()
