@@ -6,12 +6,13 @@
 
     <div style="margin: 2rem; text-align: center;">
         <h1>Method</h1>
-        
+        {# 기본으로 가져오는 방식은 get이어서 post로 받아오려면 조금 더 적어줘야함. #}
         <form action="/account/hello_world/" method="post">
-            {% csrf_token %}
+            {% csrf_token %} <!--django내 해킹방지 token-->
+            <input type="text" name="input_text">
             <input type="submit" class="btn btn-dark rounded-pill px-4">
         </form>
-        
+
         <h3>{{ text }}</h3>
 
     </div>
