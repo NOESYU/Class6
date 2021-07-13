@@ -1,12 +1,15 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView
 
 from accountapp.models import HelloWorld
 
-
+#function based view
 def hello_world(request):
     if request.method == 'POST':
         temp = request.POST.get('input_text')
@@ -25,5 +28,11 @@ def hello_world(request):
                       context={'hello_list' : hello_list})
 
 
-
+#class based view
+class AccountCreateView(CreateView):
+    model = User #쟝고 기본제공 계정모델
+    form_class = UserCreationForm #쟝고 기본제공 폼
+    success_url = reverse_lazy('accountapp:hello_world')
+    #class 에서 reverse_lazy로 사용해야함. 객체가 생성 이후 필요할때 불러야 하므로
+    template_name = 'accountapp/create.html'
 
