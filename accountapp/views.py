@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from accountapp.models import HelloWorld
 
@@ -28,7 +28,7 @@ def hello_world(request):
                       context={'hello_list' : hello_list})
 
 
-#class based view
+#class based view #CRUD 패턴
 class AccountCreateView(CreateView):
     model = User #쟝고 기본제공 계정모델
     form_class = UserCreationForm #쟝고 기본제공 폼
@@ -47,3 +47,9 @@ class AccountUpdateView(UpdateView):
     context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/update.html'
+
+class AccountDeleteView(DeleteView):
+    model = User
+    context_object_name = 'target_user'
+    success_url = reverse_lazy('accountapp:hello_world')
+    template_name = 'accountapp/delete.html'
