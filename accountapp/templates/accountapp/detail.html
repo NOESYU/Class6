@@ -9,5 +9,8 @@
         <div>
             {{ target_user.date_joined }}
         </div>
+        <div> <!--update로 가는 페이지 만들기-->
+            <a href="{% url 'accountapp:update' pk=target_user.pk %}">Update info</a>
+        </div>
     </div>
 {% endblock %}
