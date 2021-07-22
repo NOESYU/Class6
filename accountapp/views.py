@@ -9,6 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
+from accountapp.decorator import account_ownership_required
 from accountapp.forms import AccountCreationForm
 from accountapp.models import HelloWorld
 
@@ -49,9 +50,15 @@ class AccountDetailView(DetailView):
     context_object_name = 'target_user' #어떤 이름으로 접근할 것인지
     template_name = 'accountapp/detail.html'
 
-# 클래스내에서 만들어진 메소드에 적용하기 위해 # 현재는 login 여부만 확인
-@method_decorator(login_required(login_url=reverse_lazy('accountapp:login')), 'get')
-@method_decorator(login_required(login_url=reverse_lazy('accountapp:login')), 'post')
+
+#django 에서 decorator 넘겨줄때 단일도 가능한데 list 로도 가능함
+#login_required는 리다이렉트 해줘야하는데 aor 는 아니니까 login_url 안 넣어줘도 됨
+has_ownership = [login_required(login_url=reverse_lazy('accountapp:login')),
+                 account_ownership_required]
+
+# 클래스내에서 만들어진 메소드에 적용하기 위해
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountUpdateView(UpdateView):
     model = User
     form_class = AccountCreationForm
@@ -60,8 +67,8 @@ class AccountUpdateView(UpdateView):
     template_name = 'accountapp/update.html'
 
 
-@method_decorator(login_required(login_url=reverse_lazy('accountapp:login')), 'get')
-@method_decorator(login_required(login_url=reverse_lazy('accountapp:login')), 'post')
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
