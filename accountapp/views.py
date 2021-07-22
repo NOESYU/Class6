@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
@@ -5,15 +6,19 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from accountapp.forms import AccountCreationForm
 from accountapp.models import HelloWorld
 
 #function based view
+#login authenticated 관련 decorator -> django에 구현되어있음
+
+#디폴트 login_url로 안했으면 login_url 입력해주면 됨. 입력안해주면 not found 뜸
+@login_required(login_url=reverse_lazy('accountapp:login'))
 def hello_world(request):
     # authenticated 안되면 login 페이지로 redirect되게
-    if request.user.is_authenticated:
         if request.method == 'POST':
             temp = request.POST.get('input_text')
 
@@ -30,9 +35,6 @@ def hello_world(request):
             return render(request, 'accountapp/hello_world.html',
                                   context={'hello_list' : hello_list})
 
-    else:
-        return HttpResponseRedirect(reverse('accountapp:login'))
-
 #class based view #CRUD 패턴
 class AccountCreateView(CreateView):
     model = User #쟝고 기본제공 계정모델
@@ -47,6 +49,9 @@ class AccountDetailView(DetailView):
     context_object_name = 'target_user' #어떤 이름으로 접근할 것인지
     template_name = 'accountapp/detail.html'
 
+# 클래스내에서 만들어진 메소드에 적용하기 위해 # 현재는 login 여부만 확인
+@method_decorator(login_required(login_url=reverse_lazy('accountapp:login')), 'get')
+@method_decorator(login_required(login_url=reverse_lazy('accountapp:login')), 'post')
 class AccountUpdateView(UpdateView):
     model = User
     form_class = AccountCreationForm
@@ -54,35 +59,11 @@ class AccountUpdateView(UpdateView):
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/update.html'
 
-    # authenticated 안되면 접근 제한 get/post 방식 둘 다 아래 delete view도
-    def get(self, request, *args, **kwargs):
-        # a번 데이터가 b번 데이터 접근 못하게 막기 / self.get_object가 target_user 개념
-        if request.user.is_authenticated and self.get_object() == request.user:
-            return super().get(request, *args, **kwargs)
-        else:
-            # 접근해서 안되는곳에 접근했다고 return
-            return HttpResponseForbidden()
 
-    def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated and self.get_object() == request.user:
-            return super().post(request, *args, **kwargs)
-        else:
-            return HttpResponseForbidden()
-
+@method_decorator(login_required(login_url=reverse_lazy('accountapp:login')), 'get')
+@method_decorator(login_required(login_url=reverse_lazy('accountapp:login')), 'post')
 class AccountDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/delete.html'
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated and self.get_object() == request.user:
-            return super().get(request, *args, **kwargs)
-        else:
-            return HttpResponseForbidden()
-
-    def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated and self.get_object() == request.user:
-            return super().post(request, *args, **kwargs)
-        else:
-            return HttpResponseForbidden()
