@@ -20,3 +20,14 @@
     max-width: 500px;
     padding: 1rem 1.5rem;
 }
+
+.profile_image {
+    heigth: 12rem;
+    width: 12rem;
+    border-radius: 20rem;
+    object-fit: cover;
+}
+
+.NNS_B {
+    font-family: "NanumSquareB", cursive
+}
