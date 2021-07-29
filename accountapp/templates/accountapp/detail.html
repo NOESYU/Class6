@@ -11,7 +11,10 @@
                 <h2 class="NNS_B">
                     {{ target_user.profile.nickname }}
                     {% if target_user == user %}
-                        <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">Edit</a>
+                        <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}"
+                            class="material-icons round_button">
+                            edit
+                        </a> <!--icon이쁘게, head.html의클래스랑 base.css클래스-->
                     {% endif %}
                 </h2> <!--보고자하는 account객체 연결된 profile 닉네임으로 출력-->
                 <h5>{{ target_user.profile.message }}</h5> <!--profile에 적은 message출력-->

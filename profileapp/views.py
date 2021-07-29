@@ -28,7 +28,7 @@ class ProfileCreateView(CreateView):
     def get_success_url(self):
         return reverse('accountapp:detail', kwargs={'pk': self.object.user.pk})
 
-
+# 데코레이터는 접근제한하는게 detail페이지가 아니라 권한없는 사람의 update페이지 접근을 막음.
 @method_decorator(profile_ownership_required, 'get')
 @method_decorator(profile_ownership_required, 'post')
 class ProfileUpdateView(UpdateView):
