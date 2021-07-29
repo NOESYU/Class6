@@ -22,16 +22,16 @@
                 <h2><a href="{% url 'profileapp:create' %}">Create Profile!</a></h2>
             {% endif %}
         </div>
-        <div>
-            {{ target_user.date_joined }}
-        </div>
+
         <!-- 로그인한 유저와 target_user가 동일한 경우만 update와 quit이 활성화 되게끔-->
         {% if user == target_user %}
-        <div> <!--update로 가는 페이지 만들기-->
-            <a href="{% url 'accountapp:update' pk=target_user.pk %}">Update info</a>
-        </div>
-        <div> <!--Quit으로 가는 페이지 만들기-->
-            <a href="{% url 'accountapp:delete' pk=target_user.pk %}">Quit</a>
+        <div>
+            <!--update로 가는 페이지 만들기-->
+            <a href="{% url 'accountapp:update' pk=target_user.pk %}"
+                class="material-icons round_button mx-1">settings</a>
+            <!--Quit으로 가는 페이지 만들기-->
+            <a href="{% url 'accountapp:delete' pk=target_user.pk %}"
+                class="material-icons round_button mx-1">close</a>
         </div>
         {% endif %}
     </div>
