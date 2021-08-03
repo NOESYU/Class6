@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from articleapp.forms import ArticleCreationForm
 from articleapp.models import Article
@@ -32,5 +32,12 @@ class ArticleUpdateView(UpdateView):
     context_object_name = 'target_article'
     template_name = 'articleapp/update.html'
 
-    def get_success_url(self):
+    def get_success_url(self): #위에 하듯이 succes_url로 하면 kwargs를 추가를 못해줘서 메소드 따로 만드는것
         return reverse('articleapp:detail', kwargs={'pk':self.object.pk})
+
+
+class ArticleDeleteView(DeleteView):
+    model = Article
+    context_object_name = 'target_article'
+    success_url = reverse_lazy('articleapp:list')
+    template_name = 'articleapp/delete.html'
