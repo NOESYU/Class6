@@ -5,11 +5,12 @@
     <style>
         .container div {
             width: 280px;
-            background-color: antiquewhite;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 1rem;
+            flex-direction: column;
+            box-shadow: 0 0 .5rem grey;
         }
 
         .container img {
@@ -19,36 +20,15 @@
     </style>
 
     <div class="container my-4">
-      <div class="item1">
-          <img src="https://picsum.photos/200/200" alt="">
-      </div>
-      <div class="item2">
-          <img src="https://picsum.photos/200/250" alt="">
-      </div>
-      <div class="item3">
-          <img src="https://picsum.photos/200/300" alt="">
-      </div>
-      <div class="item4">
-          <img src="https://picsum.photos/200/350" alt="">
-      </div>
-      <div class="item5">
-          <img src="https://picsum.photos/200/333" alt="">
-      </div>
-      <div class="item6">
-          <img src="https://picsum.photos/200/270" alt="">
-      </div>
-      <div class="item7">
-          <img src="https://picsum.photos/200/222" alt="">
-      </div>
-      <div class="item8">
-          <img src="https://picsum.photos/200/240" alt="">
-      </div>
-      <div class="item9">
-          <img src="https://picsum.photos/200/200" alt="">
-      </div>
-      <div class="item10">
-          <img src="https://picsum.photos/200/190" alt="">
-      </div>
+    {# 게시글에서 받아온거 출력할거임 #}
+        {% for article in article_list %}
+            <div>
+                <a href="{% url 'articleapp:detail' pk=article.pk %}">
+                    <img style="width: 280px;" src="{{ article.image.url }}" alt="">
+                </a>
+            <span>{{ article.title }}</span>
+            </div>
+        {% endfor %}
     </div>
 
     <script src="{% static 'js/magicgrid.js' %}"></script>
