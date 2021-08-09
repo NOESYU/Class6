@@ -11,4 +11,4 @@ class Comment(models.Model):
     writer = models.ForeignKey(User, on_delete=models.SET_NULL,
                                related_name='comment', null=True) # 작성자
     content = models.TextField(null=False) # 내용
-    created_at = models.DateTimeField(auto_now_add=True) # 게시힌 날짜
+    created_at = models.DateTimeField(auto_now_add=True) # 게시한 날짜
