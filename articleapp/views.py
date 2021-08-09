@@ -5,12 +5,16 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
+from django.views.generic.edit import FormMixin
 
 from articleapp.decorators import article_ownership_required
 from articleapp.forms import ArticleCreationForm
 from articleapp.models import Article
 
 #로그인 여부만 확인! -> writer 할당해주려고
+from commentapp.forms import CommentCreationForm
+
+
 @method_decorator(login_required, 'get')
 @method_decorator(login_required, 'post')
 class ArticleCreateView(CreateView):
@@ -27,8 +31,9 @@ class ArticleCreateView(CreateView):
 
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(DetailView, FormMixin): # form받을수있게 mixin
     model = Article
+    form_class = CommentCreationForm
     context_object_name = 'target_article'
     template_name = 'articleapp/detail.html'
 
