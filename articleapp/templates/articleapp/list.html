@@ -3,8 +3,15 @@
 
 {% block content %}
     <style>
+        .container {
+            padding: 0;
+            margin: 0 0;
+        }
+        
         .container div {
-            width: 280px;
+            {#모바일용크기 지정해주고 최대크기 지정함으로써 피씨도#}
+            width: 45%;
+                max-width: 200px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,7 +31,7 @@
         {% for article in article_list %}
             <div>
                 <a href="{% url 'articleapp:detail' pk=article.pk %}">
-                    <img style="width: 280px;" src="{{ article.image.url }}" alt="">
+                    <img src="{{ article.image.url }}" alt="">
                 </a>
             <span>{{ article.title }}</span>
             </div>
