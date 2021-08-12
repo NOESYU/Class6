@@ -64,3 +64,10 @@
     border-radius: 1rem;
     margin: 1rem;
 }
+
+/* 스크린의 크기를 확인하여 500px 미만이 될경우 html 속성을 바꿀것 */
+@media screen and (max-width: 500px) {
+    html {
+        font-size: 13px;
+    }
+}
