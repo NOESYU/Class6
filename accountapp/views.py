@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic.list import MultipleObjectMixin
 
 from accountapp.decorator import account_ownership_required
 from accountapp.forms import AccountCreationForm
@@ -17,6 +18,9 @@ from accountapp.models import HelloWorld
 #login authenticated 관련 decorator -> django에 구현되어있음
 
 #디폴트 login_url로 안했으면 login_url 입력해주면 됨. 입력안해주면 not found 뜸
+from articleapp.models import Article
+
+
 @login_required(login_url=reverse_lazy('accountapp:login'))
 def hello_world(request):
     # authenticated 안되면 login 페이지로 redirect되게
@@ -45,14 +49,20 @@ class AccountCreateView(CreateView):
     template_name = 'accountapp/create.html'
 
 
-class AccountDetailView(DetailView):
+class AccountDetailView(DetailView, MultipleObjectMixin):
     model = User
     context_object_name = 'target_user' #어떤 이름으로 접근할 것인지
     template_name = 'accountapp/detail.html'
 
+    paginate_by = 20
 
-#django 에서 decorator 넘겨줄때 단일도 가능한데 list 로도 가능함
-#login_required는 리다이렉트 해줘야하는데 aor 는 아니니까 login_url 안 넣어줘도 됨
+    def get_context_data(self, **kwargs):
+        article_list = Article.objects.filter(writer=self.object)
+        return super().get_context_data(object_list=article_list, **kwargs)
+
+
+# django 에서 decorator 넘겨줄때 단일도 가능한데 list 로도 가능함
+# login_required는 리다이렉트 해줘야하는데 aor 는 아니니까 login_url 안 넣어줘도 됨
 has_ownership = [login_required(login_url=reverse_lazy('accountapp:login')),
                  account_ownership_required]
 
