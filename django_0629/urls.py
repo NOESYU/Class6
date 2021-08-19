@@ -25,5 +25,6 @@ urlpatterns = [
     path('article/', include('articleapp.urls')),
     path('comment/', include('commentapp.urls')),
     path('project/', include('projectapp.urls')),
+    path('subscribe/', include('subscribeapp.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # 미디어 제공 해주는 경로 추가, django static conf 로 된거 import
