@@ -23,6 +23,7 @@ class ProjectCreateView(CreateView):
     def get_success_url(self):
         return reverse('projectapp:detail', kwargs={'pk':self.object.pk})
 
+
 # 믹스인 기능 사용(디테일뷰에서 리스트뷰기능을 가져오려고)
 class ProjectDetailView(DetailView, MultipleObjectMixin):
     model = Project
@@ -45,6 +46,7 @@ class ProjectDetailView(DetailView, MultipleObjectMixin):
         return super().get_context_data(object_list=article_list,
                                         subscription=subscription,
                                         **kwargs)
+
 
 class ProjectListView(ListView):
     model = Project
