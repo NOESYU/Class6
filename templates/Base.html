@@ -4,6 +4,16 @@
 <body style="font-family: NanumSquareB">
     {% include 'header.html' %}
     <hr> <!--수평선태그-->
+
+    {# 메세지 출력 #}
+    {% for message in messages %}
+        <div class="text-center">
+            <div class="btn btn-success rounded-pill px-5">
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+
     {% block content %} <!--header와 footer 중간에 block 지정-->
     {% endblock %}
     <hr>
