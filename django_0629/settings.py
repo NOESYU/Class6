@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.contrib.messages import constants as messages
 from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent #부모 경로 2번 찾음->최상위 폴더가 base_dir
@@ -42,6 +43,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
 
 # Application definition
 
