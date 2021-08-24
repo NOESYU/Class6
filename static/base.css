@@ -71,3 +71,14 @@
         font-size: 13px;
     }
 }
+
+/* 앵커태그 전부에 다 적용 */
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* 마우스를 올렸을때 조건지정 hover */
+a:hover {
+    color: blue;
+}
