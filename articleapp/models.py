@@ -16,3 +16,6 @@ class Article(models.Model):
     content = models.TextField(null=True)
 
     created_at = models.DateField(auto_now_add=True)
+
+    # 좋아요 필드
+    like = models.IntegerField(default=0)
