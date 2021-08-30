@@ -3,21 +3,25 @@
 <div style="text-align: center;">
     {# margin 상하여백, 좌우여백   #}
     <div class="header_logo">
-        <h1>SS Page</h1>
+        <h1>
+            <a href="{% url 'home' %}">
+                SS Page
+            </a>
+        </h1>
     </div>
     <div class="header_button">
-        <span>
+        <span class="mx-2">
             <a href="{% url 'articleapp:list' %}">
                 Articles
             </a>
         </span>
-        <span>
+        <span class="mx-2">
             <a href="{% url 'projectapp:list' %}">
                 Projects
             </a>
         </span>
         {% if user.is_authenticated %}
-        <span>
+        <span class="mx-2">
             <a href="{% url 'subscribeapp:list' %}">
                 Subscription
             </a>
@@ -25,17 +29,17 @@
         {% endif %}
         <!--로그인 상태와 로그아웃 상태에 따라 다르게 보여주기-->
         {% if not user.is_authenticated %}
-        <span>
+        <span class="mx-2">
             <a href="{% url 'accountapp:login' %}">Login</a>
         </span>
-        <span>
+        <span class="mx-2">
             <a href="{% url 'accountapp:create' %}">Sign up</a>
         </span>
         {% else %}
-        <span>
+        <span class="mx-2">
             <a href="{% url 'accountapp:detail' pk=user.pk%}">My Page</a>
         </span>
-        <span>
+        <span class="mx-2">
             <a href="{% url 'accountapp:logout' %}">Logout</a>
         </span>
         {% endif %}
