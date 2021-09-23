@@ -13,12 +13,24 @@ services:
       - sspage_media:/data/media/
 
   django:
-    image: sspage:03
+    image: sspage:04
     networks:
       - sspage_network
     volumes:
       - sspage_media:/home/django/media
       - sspage_static:/home/django/staticfiles
+
+  mariadb:
+    image: mariadb:10.5
+    networks:
+      - sspage_network
+    volumes:
+      - sspage_mariadb:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: django
+      MARIADB_USER: django
+      MARIADB_PASSWORD: password
 
 networks:
   sspage_network:
@@ -26,3 +38,4 @@ networks:
 volumes:
   sspage_static:
   sspage_media:
+  sspage_mariadb:
