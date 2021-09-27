@@ -19,6 +19,8 @@ services:
     volumes:
       - sspage_media:/home/django/media
       - sspage_static:/home/django/staticfiles
+    secrets:
+      - DJANGO_SECRET_KEY
 
   mariadb:
     image: mariadb:10.5
@@ -39,3 +41,7 @@ volumes:
   sspage_static:
   sspage_media:
   sspage_mariadb:
+
+secrets:
+  DJANGO_SECRET_KEY:
+    external: true
