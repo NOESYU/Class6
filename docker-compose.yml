@@ -21,6 +21,8 @@ services:
       - sspage_static:/home/django/staticfiles
     secrets:
       - DJANGO_SECRET_KEY
+      - MARIADB_USER
+      - MARIADB_PASSWORD
 
   mariadb:
     image: mariadb:10.5
@@ -28,6 +30,10 @@ services:
       - sspage_network
     volumes:
       - sspage_mariadb:/var/lib/mysql
+    secrets:
+      - MARIADB_ROOT_PASSWORD
+      - MARIADB_USER
+      - MARIADB_PASSWORD
     environment:
       MARIADB_ROOT_PASSWORD: password
       MARIADB_DATABASE: django
@@ -44,4 +50,10 @@ volumes:
 
 secrets:
   DJANGO_SECRET_KEY:
+    external: true
+  MARIADB_ROOT_PASSWORD:
+    external: true
+  MARIADB_USER:
+    external: true
+  MARIADB_PASSWORD:
     external: true
