@@ -1,20 +1,15 @@
 from .base import *
 
+def read_secret(secret_name):
+    file = open('/run/secrets/' + secret_name)
+    secret = file.read()
+    secret = secret.lstrip().rstrip()
+    file.close()
 
-env_list = dict()
-local_env = open(os.path.join(BASE_DIR, '.env')) #운영체제 경로에서 base_dir과 .env join 한 경로
+    return secret
 
-while True:
-    line = local_env.readline()
-    if not line:
-        break
-    line = line.replace('\n', '')
-    start = line.find('=') #=을 find해서 start에
-    key = line[:start]
-    value = line[start+1:] #=부분은 필요없으니까 +1
-    env_list[key] = value
 
-SECRET_KEY = env_list['SECRET_KEY'] #.env에서 해당 value 받아오기
+SECRET_KEY = read_secret('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -29,8 +24,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django',
-        'USER': 'django',
-        'PASSWORD': 'password',
+        'USER': read_secret('MARIADB_USER'),
+        'PASSWORD': read_secret('MARIADB_PASSWORD'),
         'HOST': 'mariadb',
         'PORT': '3306',
     }
