@@ -13,7 +13,7 @@ services:
       - sspage_media:/data/media/
 
   django:
-    image: sspage:04
+    image: sspage:05
     networks:
       - sspage_network
     volumes:
