@@ -4,13 +4,17 @@ services:
   nginx:
     image: nginx:1.19.5
     ports:
-      - 80:80
+      - mode: host
+        protocol: tcp
+        target: 80
+        published: 80
     networks:
       - sspage_network
     volumes:
       - /home/ubuntu/nginx.conf:/etc/nginx/nginx.conf
       - sspage_static:/data/static/
       - sspage_media:/data/media/
+      - sspage_log:/var/log/nginx/
 
   django:
     image: sspage:05
@@ -47,6 +51,7 @@ volumes:
   sspage_static:
   sspage_media:
   sspage_mariadb:
+  sspage_log:
 
 secrets:
   DJANGO_SECRET_KEY:
