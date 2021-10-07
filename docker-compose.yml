@@ -15,6 +15,16 @@ services:
       - sspage_static:/data/static/
       - sspage_media:/data/media/
       - sspage_log:/var/log/nginx/
+    secrets:
+      - NGINX_AUTH
+
+  goaccess:
+    image: allinurl/goaccess:1.5.1
+    ports:
+      - 7890:7890
+    volumes:
+      - sspage_log:/var/log/nginx/
+    command: /var/log/nginx/sspage_access.log -o /var/log/nginx/report.html --real-time-html --log-format COMBINED
 
   django:
     image: sspage:05
@@ -61,4 +71,6 @@ secrets:
   MARIADB_USER:
     external: true
   MARIADB_PASSWORD:
+    external: true
+  NGINX_AUTH:
     external: true
